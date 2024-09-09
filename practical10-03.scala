@@ -1,3 +1,5 @@
+import scala.io.StdIn
+
 class MyBankAccount(val accountNumber: String, initialBalance: Double) {
   private var balance: Double = initialBalance
 
@@ -33,12 +35,32 @@ class MyBankAccount(val accountNumber: String, initialBalance: Double) {
 }
 
 object BankAccountApp extends App {
-  val account1 = new MyBankAccount("12345", 1000.0)
-  val account2 = new MyBankAccount("67890", 500.0)
+  def readDouble(prompt: String): Double = {
+    println(prompt)
+    StdIn.readDouble()
+  }
 
-  account1.deposit(500.0)
-  account1.withdraw(200.0)
-  account1.transfer(300.0, account2)
+  def readString(prompt: String): String = {
+    println(prompt)
+    StdIn.readLine()
+  }
+
+  val account1Number = readString("Enter the account number for the first account:")
+  val account1InitialBalance = readDouble("Enter the initial balance for the first account:")
+  val account1 = new MyBankAccount(account1Number, account1InitialBalance)
+
+  val account2Number = readString("Enter the account number for the second account:")
+  val account2InitialBalance = readDouble("Enter the initial balance for the second account:")
+  val account2 = new MyBankAccount(account2Number, account2InitialBalance)
+
+  val depositAmount = readDouble(s"Enter the deposit amount for account ${account1.accountNumber}:")
+  account1.deposit(depositAmount)
+
+  val withdrawAmount = readDouble(s"Enter the withdrawal amount for account ${account1.accountNumber}:")
+  account1.withdraw(withdrawAmount)
+
+  val transferAmount = readDouble(s"Enter the transfer amount from account ${account1.accountNumber} to account ${account2.accountNumber}:")
+  account1.transfer(transferAmount, account2)
 
   println(account1)
   println(account2)

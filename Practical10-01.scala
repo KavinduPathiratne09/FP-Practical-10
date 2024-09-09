@@ -1,3 +1,5 @@
+import scala.io.StdIn
+
 class Rational(n: Int, d: Int) {
   require(d != 0, "Denominator cannot be zero")
 
@@ -19,11 +21,25 @@ class Rational(n: Int, d: Int) {
 }
 
 object RationalTest extends App {
-  val x = new Rational(3, 4)
-  println(s"Original: $x")        
-  println(s"Negation: ${x.neg}")  
+  def readInt(prompt: String): Int = {
+    println(prompt)
+    StdIn.readInt()
+  }
 
-  val y = new Rational(5)
-  println(s"Original: $y")        
-  println(s"Negation: ${y.neg}")  
+  def readRational(): Rational = {
+    val numer = readInt("Enter numerator:")
+    val denom = readInt("Enter denominator (non-zero):")
+    new Rational(numer, denom)
+  }
+
+  println("Enter details for the first Rational number")
+  val x = readRational()
+  println(s"Original: $x")
+  println(s"Negation: ${x.neg}")
+
+  println("Enter details for the second Rational number (denominator can be omitted, defaulting to 1):")
+  val numer = readInt("Enter numerator:")
+  val y = new Rational(numer)
+  println(s"Original: $y")
+  println(s"Negation: ${y.neg}")
 }

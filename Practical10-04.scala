@@ -1,3 +1,5 @@
+import scala.io.StdIn
+
 class BankAccount(val accountNumber: String, initialBalance: Double) {
   private var balance: Double = initialBalance
 
@@ -51,12 +53,10 @@ object Bank {
     accounts = account :: accounts
   }
 
-  // Use the getBalance method instead of accessing the private balance field
   def listNegativeBalanceAccounts(): List[BankAccount] = {
     accounts.filter(_.getBalance < 0)
   }
 
-  // Use the getBalance method for summing the total balance
   def calculateTotalBalance(): Double = {
     accounts.map(_.getBalance).sum
   }
@@ -71,15 +71,46 @@ object Bank {
 }
 
 object BankApp extends App {
-  val account1 = new BankAccount("12345", 1000.0)
-  val account2 = new BankAccount("67890", -500.0)
-  val account3 = new BankAccount("54321", 750.0)
+  def readDouble(prompt: String): Double = {
+    println(prompt)
+    StdIn.readDouble()
+  }
+
+  def readString(prompt: String): String = {
+    println(prompt)
+    StdIn.readLine()
+  }
+
+  def createAccount(): BankAccount = {
+    val accountNumber = readString("Enter account number:")
+    val initialBalance = readDouble("Enter initial balance:")
+    new BankAccount(accountNumber, initialBalance)
+  }
+
+  // Create accounts
+  val account1 = createAccount()
+  val account2 = createAccount()
+  val account3 = createAccount()
 
   Bank.addAccount(account1)
   Bank.addAccount(account2)
   Bank.addAccount(account3)
 
-  println("Accounts with negative balances:")
+  // Perform operations
+  println("Enter deposit amount for account 1:")
+  account1.deposit(readDouble(""))
+
+  println("Enter withdrawal amount for account 1:")
+  account1.withdraw(readDouble(""))
+
+  println("Enter transfer amount from account 1 to account 2:")
+  account1.transfer(readDouble(""), account2)
+
+  println("Enter deposit amount for account 2:")
+  account2.deposit(readDouble(""))
+
+  // Print account details
+  println("\nAccounts with negative balances:")
   Bank.listNegativeBalanceAccounts().foreach(println)
 
   println(s"\nTotal balance: ${Bank.calculateTotalBalance()}")
