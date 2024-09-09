@@ -87,7 +87,6 @@ object BankApp extends App {
     new BankAccount(accountNumber, initialBalance)
   }
 
-  // Create accounts
   val account1 = createAccount()
   val account2 = createAccount()
   val account3 = createAccount()
@@ -96,7 +95,6 @@ object BankApp extends App {
   Bank.addAccount(account2)
   Bank.addAccount(account3)
 
-  // Perform operations
   println("Enter deposit amount for account 1:")
   account1.deposit(readDouble(""))
 
@@ -109,7 +107,6 @@ object BankApp extends App {
   println("Enter deposit amount for account 2:")
   account2.deposit(readDouble(""))
 
-  // Print account details
   println("\nAccounts with negative balances:")
   Bank.listNegativeBalanceAccounts().foreach(println)
 
